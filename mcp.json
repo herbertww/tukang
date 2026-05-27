@@ -1,0 +1,61 @@
+{
+  "name": "tukang-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for AI-native handyman and local services dispatch in Singapore. Enables AI agents to search, match, and dispatch skilled tradespeople (tukang) via WhatsApp.",
+  "homepage": "https://tukang.created.app",
+  "license": "MIT",
+  "protocol": "MCP JSON-RPC 2024-11-05",
+  "endpoint": "https://tukang.created.app/api/mcp",
+  "transport": ["http", "sse"],
+  "tools": [
+    {
+      "name": "search_handymen",
+      "description": "Search for available skilled tradespeople near a location with specific skills. Returns handymen sorted by distance, rating, and availability.",
+      "parameters": {
+        "lat": "number (required) — latitude of job location",
+        "lng": "number (required) — longitude of job location",
+        "job_type": "string (required) — plumbing, electrical, carpentry, aircon, painting, general",
+        "max_distance_km": "number (optional) — search radius in km, default 10",
+        "max_results": "number (optional) — max results to return, default 5"
+      }
+    },
+    {
+      "name": "dispatch_job",
+      "description": "Create a new job and dispatch it to matched handymen via WhatsApp. Handymen receive Accept/Reject buttons. First to accept wins the job atomically.",
+      "parameters": {
+        "customer_name": "string (required)",
+        "customer_phone": "string (required) — e.g. +6598765432",
+        "job_type": "string (required)",
+        "description": "string (required) — detailed job description",
+        "location": "string (required) — full address",
+        "lat": "number (required)",
+        "lng": "number (required)",
+        "urgency": "string (optional) — low, normal, urgent. Default: normal",
+        "handyman_ids": "array (optional) — specific handyman IDs to dispatch to"
+      }
+    },
+    {
+      "name": "get_job_status",
+      "description": "Get current status of a job including all dispatch attempts, acceptance info, and assigned handyman details.",
+      "parameters": {
+        "job_id": "number (required) — job ID to check"
+      }
+    },
+    {
+      "name": "list_jobs",
+      "description": "List all jobs with optional status filtering. Useful for agent debugging and admin monitoring.",
+      "parameters": {
+        "status": "string (optional) — pending, dispatched, accepted, completed, cancelled",
+        "limit": "number (optional) — max jobs to return, default 20"
+      }
+    }
+  ],
+  "claude_desktop_config": {
+    "mcpServers": {
+      "tukang": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-remote", "https://tukang.created.app/api/mcp"]
+      }
+    }
+  }
+}
