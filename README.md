@@ -14,6 +14,8 @@ in Singapore via WhatsApp — without any app download or manual booking flow.
 When a user asks their AI "find me a plumber near Toa Payoh," Tukang handles 
 the entire workflow: search → match → dispatch → accept/reject → confirmation.
 
+<img width="341" height="273" alt="image" src="https://github.com/user-attachments/assets/a382e058-89eb-42ae-9d27-fd174ad14ba2" />
+
 ## MCP Server Endpoint
 https://tukang.created.app/api/mcp
 
